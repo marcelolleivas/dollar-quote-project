@@ -5,6 +5,10 @@ name = "pypi"
 
 [packages]
 django = "4.1.2"
+requests = "*"
+celery = "*"
+kombu = "*"
+django-celerybeat-status = "*"
 
 [dev-packages]
 flake8 = "==4.0.1"
