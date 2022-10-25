@@ -30,7 +30,7 @@ repos:
       - id: flake8
         exclude: |
           (?x)(
-            ^migrations/|
+            ^dollar_quote/rates/migrations/|
             ^config/
           )
         additional_dependencies:
