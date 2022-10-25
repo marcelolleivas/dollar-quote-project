@@ -40,7 +40,6 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "dollar_quote.rates",
-    "celerybeat_status",
 ]
 
 MIDDLEWARE = [

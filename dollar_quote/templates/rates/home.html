@@ -11,16 +11,16 @@
 <form>
     <div>
         <label for="start">Start date:</label>
-        <input type="date" id="start" name="date-start"
+        <input type="date" id="start" name="date_start"
             value="2018-07-22"
-            min="2018-01-01" max="2018-12-31">
+            min="2018-01-01" max="2022-10-25">
     </div>
 
     <div>
         <label for="end">End date:</label>
-        <input type="date" id="end" name="date-end"
+        <input type="date" id="end" name="date_end"
             value="2018-07-22"
-            min="2018-01-01" max="2018-12-31">
+            min="2018-01-01" max="2022-10-25">
     </div>
 
     <div>
@@ -32,6 +32,13 @@
         </select>
     </div>
 
-    <p><button>Submit</button></p>
+    <button>Submit</button>
+
+    {% if data != None %}
+        <alert>Estamos aqui</alert>
+    {% endif %}
+    {% if error != None %}
+        <alert>{{ error }}</alert>
+    {% endif %}
 </form>
 {% endblock content %}
