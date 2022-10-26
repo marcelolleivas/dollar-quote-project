@@ -1,5 +1,3 @@
-import json
-
 from django.shortcuts import render
 
 from dollar_quote.rates.forms import RateForm
@@ -13,30 +11,15 @@ def index(request):
         form = RateForm(request.POST)
         if form.is_valid():
             dataset = form.cleaned_data
-
-            category_data_source = {
-                "name": f"USD to {dataset['currency'][1]} exchange rate over time",
-                "data": [],
-            }
+            currency = dataset["currency"][1]
+            categories = []
+            series = [{"name": currency, "data": []}]
 
             for entry in dataset["data"]:
-                data = {
-                    "name": json_serial(entry["date"]),
-                    "y": json_serial(entry[dataset["currency"][0]]),
-                }
-                category_data_source["data"].append(data)
+                categories.append(json_serial(entry["date"]))
+                series[0]["data"].append(json_serial(entry[dataset["currency"][0]]))
 
-            category_chart_data = {
-                "chart": {"zoomType": "x"},
-                "title": {
-                    "text": f"USD to {dataset['currency'][1]} exchange rate over time"
-                },
-                "xAxis": {"type": "datetime"},
-                "yAxis": {"title": {"text": "Exchange rate"}},
-                "series": [category_data_source],
-            }
-
-            context = json.dumps(category_chart_data)
+            context = {"currency": currency, "categories": categories, "series": series}
     else:
         form = RateForm()
 

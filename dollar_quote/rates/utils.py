@@ -1,6 +1,8 @@
 import decimal
 from datetime import date, datetime, timedelta
 
+from django import forms
+
 
 def get_workdays(start, end):
     # get list of all days
@@ -19,4 +21,10 @@ def json_serial(obj):
     if isinstance(obj, (datetime, date)):
         return obj.isoformat()
     if isinstance(obj, decimal.Decimal):
-        return str(obj)
+        return float(obj)
+
+
+def present_or_past_data(value):
+    if value > date.today():
+        msg = "End date must be till today"
+        raise forms.ValidationError(msg)

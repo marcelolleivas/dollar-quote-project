@@ -4,7 +4,7 @@ from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Submit
 
 from dollar_quote.rates.models import Rate
-from dollar_quote.rates.utils import get_workdays
+from dollar_quote.rates.utils import get_workdays, present_or_past_data
 
 
 class RateForm(forms.Form):
@@ -20,9 +20,9 @@ class RateForm(forms.Form):
     currency_options = forms.ChoiceField(
         label="Which currency you choose?",
         choices=(
-            (0, "Brazilian Real (BRL)"),
-            (1, "Euro (EUR)"),
-            (2, "Japenese Yen (YEN)"),
+            (0, " Brazilian Real (BRL)"),
+            (1, " Euro (EUR)"),
+            (2, " Japenese Yen (YEN)"),
         ),
         widget=forms.RadioSelect,
         initial="0",
@@ -31,11 +31,14 @@ class RateForm(forms.Form):
 
     date_start = forms.DateField(
         label="Start date:",
+        widget=forms.DateInput(attrs=dict(type="date")),  # noqa: C408
         required=True,
     )
 
     date_end = forms.DateField(
         label="End date:",
+        widget=forms.DateInput(attrs=dict(type="date")),  # noqa: C408
+        validators=[present_or_past_data],
         required=True,
     )
 
@@ -50,6 +53,11 @@ class RateForm(forms.Form):
 
         date_start = cleaned_data.get("date_start")
         date_end = cleaned_data.get("date_end")
+
+        # confirms present_or_past_data validator
+        if not date_end:
+            msg = "End date must be till today"
+            raise forms.ValidationError(msg)
 
         workdays = get_workdays(date_start, date_end)
 
