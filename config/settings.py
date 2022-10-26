@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "dollar_quote.rates",
+    "crispy_forms",
 ]
 
 MIDDLEWARE = [

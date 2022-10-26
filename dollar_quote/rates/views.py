@@ -1,35 +1,43 @@
-from datetime import datetime
+import json
 
 from django.shortcuts import render
 
-from dollar_quote.rates.models import Rate
-from dollar_quote.rates.utils import get_workdays
+from dollar_quote.rates.forms import RateForm
+from dollar_quote.rates.utils import json_serial
 
 
 def index(request):
-    # default values
-    error = None
-    data = None
+    context = None
 
-    date_start = request.GET.get("date_start")
-    date_end = request.GET.get("date_end")
+    if request.method == "POST":
+        form = RateForm(request.POST)
+        if form.is_valid():
+            dataset = form.cleaned_data
 
-    # check if user has sent the values
-    if date_start and date_end:
-        date_start = datetime.strptime(date_start, "%Y-%m-%d")
-        date_end = datetime.strptime(date_end, "%Y-%m-%d")
+            category_data_source = {
+                "name": f"USD to {dataset['currency'][1]} exchange rate over time",
+                "data": [],
+            }
 
-        workdays = get_workdays(date_start, date_end)
+            for entry in dataset["data"]:
+                data = {
+                    "name": json_serial(entry["date"]),
+                    "y": json_serial(entry[dataset["currency"][0]]),
+                }
+                category_data_source["data"].append(data)
 
-        if date_start > date_end or workdays > 5:
-            error = (
-                "Date start must be less than the end date or "
-                "range must be max 5 workdays!"
-            )
-        else:
-            data = Rate.objects.filter(date__range=[date_start, date_end])
-            if not data.exists():
-                error = "Database has no data for this date range!"
-                data = None
+            category_chart_data = {
+                "chart": {"zoomType": "x"},
+                "title": {
+                    "text": f"USD to {dataset['currency'][1]} exchange rate over time"
+                },
+                "xAxis": {"type": "datetime"},
+                "yAxis": {"title": {"text": "Exchange rate"}},
+                "series": [category_data_source],
+            }
 
-    return render(request, "rates/home.html", {"error": error, "data": data})
+            context = json.dumps(category_chart_data)
+    else:
+        form = RateForm()
+
+    return render(request, "rates/home.html", {"context": context, "form": form})

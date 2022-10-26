@@ -1,4 +1,5 @@
-from datetime import timedelta
+import decimal
+from datetime import date, datetime, timedelta
 
 
 def get_workdays(start, end):
@@ -10,3 +11,12 @@ def get_workdays(start, end):
     # increase counter in each iteration if it is a weekday
     count = sum(1 for day in all_days if day.weekday() < 5)
     return count
+
+
+def json_serial(obj):
+    """JSON serializer for objects not serializable by default json code"""
+
+    if isinstance(obj, (datetime, date)):
+        return obj.isoformat()
+    if isinstance(obj, decimal.Decimal):
+        return str(obj)

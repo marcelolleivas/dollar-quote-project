@@ -1,6 +1,10 @@
 {% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% crispy rate_form rate_form.helper %}
 {% block title %}Dollar Quote Project - Home {% endblock title %}
 {% block content %}
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa\
+9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
 <h1>Dollar Quote Project</h1>
 
 <p>
@@ -8,37 +12,14 @@
     some another currencies.
 </p>
 
-<form>
-    <div>
-        <label for="start">Start date:</label>
-        <input type="date" id="start" name="date_start"
-            value="2018-07-22"
-            min="2018-01-01" max="2022-10-25">
-    </div>
-
-    <div>
-        <label for="end">End date:</label>
-        <input type="date" id="end" name="date_end"
-            value="2018-07-22"
-            min="2018-01-01" max="2022-10-25">
-    </div>
-
-    <div>
-        <label for="currency">Choose a currency:</label>
-        <select name="currency" id="currency">
-          <option value="BRL">Brazilian Real</option>
-          <option value="EUR">Euro</option>
-          <option value="YEN">Japanese Yen</option>
-        </select>
-    </div>
-
-    <button>Submit</button>
-
-    {% if data != None %}
-        <alert>Estamos aqui</alert>
-    {% endif %}
-    {% if error != None %}
-        <alert>{{ error }}</alert>
-    {% endif %}
+<form method="POST" class="post-form" enctype="multipart/form-data">
+    {% crispy form %}
 </form>
+    {% if context != None %}
+        <div id="container"></div>
+        <script src="https://code.highcharts.com/highcharts.src.js"></script>
+        <script>
+            Highcharts.chart('container', {{ context|safe }});
+        </script>
+    {% endif %}
 {% endblock content %}

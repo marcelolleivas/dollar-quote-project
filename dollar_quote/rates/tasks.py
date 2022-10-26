@@ -12,7 +12,7 @@ service = VATService()
     autoretry_for=(Exception,),
     retry_kwargs={"max_retries": 3, "countdown": 300},
 )
-def populate_database(self):
+def update_daily_rate(self):
     date = timezone.now()
     data = service.get_rate(date)
     try:
