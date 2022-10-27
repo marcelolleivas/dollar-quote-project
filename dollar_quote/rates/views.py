@@ -1,3 +1,4 @@
+from django.contrib import messages
 from django.core.exceptions import BadRequest
 from django.shortcuts import render
 
@@ -7,7 +8,7 @@ from dollar_quote.rates.utils import json_serial
 
 def index(request):
     context = None
-    error = None
+    status_code = 200
     if request.method == "POST":
         try:
             form = RateForm(request.POST)
@@ -27,10 +28,14 @@ def index(request):
                     "series": series,
                 }
         except BadRequest as e:
-            error = e
+            messages.error(request, e)
+            status_code = 400
     else:
         form = RateForm()
 
     return render(
-        request, "rates/home.html", {"context": context, "form": form, "error": error}
+        request,
+        "rates/home.html",
+        {"context": context, "form": form},
+        status=status_code,
     )
