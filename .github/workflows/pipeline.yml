@@ -58,7 +58,7 @@ jobs:
         run: pipenv run black .
 
       - name: Run unit tests
-        run: pipenv run coverage run pytest
+        run: pipenv run coverage run -m pytest
         env:
           API_KEY: ""
           DJANGO_SECRET_KEY: ""
