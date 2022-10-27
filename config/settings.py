@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "dollar_quote.rates",
     "crispy_forms",
+    "rest_framework",
 ]
 
 MIDDLEWARE = [
@@ -136,3 +137,8 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 # Celery settings
 CELERY_BROKER_URL = "redis://localhost:6379"
 CELERY_RESULT_BACKEND = "redis://localhost:6379"
+
+REST_FRAMEWORK = {
+    "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.PageNumberPagination",
+    "PAGE_SIZE": 10,
+}

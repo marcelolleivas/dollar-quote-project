@@ -10,6 +10,7 @@ celery = "*"
 kombu = "*"
 django-celerybeat-status = "*"
 django-crispy-forms = "*"
+djangorestframework = "*"
 
 [dev-packages]
 flake8 = "==4.0.1"
