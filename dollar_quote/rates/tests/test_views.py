@@ -9,7 +9,7 @@ from dollar_quote.rates.models import Rate
 
 class TestRateIndex:
 
-    endpoint = "/rates"
+    endpoint = ""
 
     @pytest.mark.parametrize(
         "date_start,date_end,currency",
