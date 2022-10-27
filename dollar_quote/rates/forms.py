@@ -1,4 +1,5 @@
 from django import forms
+from django.core.exceptions import BadRequest
 
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Submit
@@ -57,7 +58,7 @@ class RateForm(forms.Form):
         # confirms present_or_past_data validator
         if not date_end:
             msg = "End date must be till today"
-            raise forms.ValidationError(msg)
+            raise BadRequest(msg)
 
         workdays = get_workdays(date_start, date_end)
 
@@ -66,7 +67,7 @@ class RateForm(forms.Form):
                 "Date start must be less than the end date or "
                 "range must be max 5 workdays!"
             )
-            raise forms.ValidationError(msg)
+            raise BadRequest(msg)
         else:
             dataset = (
                 Rate.objects.filter(date__range=[date_start, date_end])
