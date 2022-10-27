@@ -11,7 +11,7 @@ class Command(BaseCommand):  # pragma: no cover
         service = VATService()
         days = 10
         data_to_db = []
-        for i in range(days + 1):
+        for i in range(days):
             date = datetime.today() - timedelta(days=i)
             date = date.strftime("%Y-%m-%d")
             service_data = service.get_rate(date)
