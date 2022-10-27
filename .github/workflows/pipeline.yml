@@ -65,4 +65,4 @@ jobs:
           DATABASE_URL: ""
 
       - name: Check coverage
-        run: pipenv run coverage report --fail-under=95
+        run: pipenv run coverage report --fail-under=93
