@@ -1,0 +1,19 @@
+[run]
+omit =
+  *apps.py,
+  *migrations/*,
+  *settings*,
+  *tests/*,
+  *urls.py,
+  *wsgi*,
+  *asgi*,
+  *schemas.py,
+  *inspectors.py,
+  venv/*,
+  */pypoetry/*
+  manage.py
+  *__init__.py
+
+[report]
+fail_under = 95
+show_missing = True
