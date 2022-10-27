@@ -66,4 +66,7 @@
         });
         </script>
     {% endif %}
+    {% if error != None %}
+        <p>{{ error }}</p>
+    {% endif %}
 {% endblock content %}
