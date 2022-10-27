@@ -29,7 +29,7 @@ def client():
 
 
 @pytest.fixture
-@freeze_time("2022-10-20")
+@freeze_time("2022-10-24")
 def rate(db):
     return RateFactory.create()
 

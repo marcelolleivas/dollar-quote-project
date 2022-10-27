@@ -4,8 +4,6 @@ from django.utils import timezone
 
 import pytest
 
-from dollar_quote.rates.models import Rate
-
 
 class TestRateIndex:
 
@@ -26,8 +24,6 @@ class TestRateIndex:
         self, date_start, date_end, currency, client, rate
     ):
         # ARRANGE
-        rate.date = "2022-10-24"
-        rate.save(force_update=True)
 
         # ACT
         params = {
@@ -35,22 +31,6 @@ class TestRateIndex:
             "date_end": date_end,
             "currency_options": currency,
         }
-        response = client.post(self.endpoint, data=params)
-
-        # ASSERT
-        assert response.status_code == 200
-
-    def test_valid_params_multiple_data_succeeds(self, client, multiple_rates):
-        # ARRANGE
-        Rate.objects.all().update(date="2022-10-24")
-
-        params = {
-            "date_start": "2022-10-24",
-            "date_end": "2022-10-25",
-            "currency_options": "0",
-        }
-
-        # ACT
         response = client.post(self.endpoint, data=params)
 
         # ASSERT
