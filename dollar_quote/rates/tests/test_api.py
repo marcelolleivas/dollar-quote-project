@@ -57,3 +57,37 @@ class TestRateApi:
         # ASSERT
         assert response.status_code == 200
         assert len(response.json()["results"]) == 3
+
+    @freezegun.freeze_time("2022-10-20")
+    def test_page_doesnt_exist_get_error(self, db, client, rate):
+        # ARRANGE
+        params = {
+            "start_date": (datetime.today() - timedelta(days=2)).strftime("%Y-%m-%d"),
+            "end_date": (datetime.today()).strftime("%Y-%m-%d"),
+            "page": 2,
+        }
+
+        # ACT
+        response = client.get(self.endpoint, params)
+
+        # ASSERT
+        assert response.status_code == 404
+        assert response.json()["detail"] == "Invalid page."
+
+    @freezegun.freeze_time("2022-10-20")
+    def test_wrong_date_range_get_error(self, db, client, multiple_rates):
+        # ARRANGE
+        params = {
+            "start_date": (datetime.today()).strftime("%Y-%m-%d"),
+            "end_date": (datetime.today() - timedelta(days=2)).strftime("%Y-%m-%d"),
+        }
+
+        # ACT
+        response = client.get(self.endpoint, params)
+
+        # ASSERT
+        assert response.status_code == 400
+        assert (
+            response.json()["detail"]
+            == "start_date must be less than or equal to end_date"
+        )
