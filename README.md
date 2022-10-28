@@ -13,7 +13,7 @@ Python project to check BRL, EUR, YEN rates compared to USD.
 Unfortunately Heroku [is not for free anymore](https://techcrunch.com/2022/08/25/heroku-announces-plans-to-eliminate-free-plans-blaming-fraud-and-abuse/)
 so here are the options to make yourself ready:
 
-### Docker compose
+### Docker compose (recommended)
 
 You can prepare the app locally running:
 
@@ -70,3 +70,13 @@ with the endpoints created and what is on database.
 ### Accessing API documentation
 If you are with the app up, you can access `/api/docs/`. There you can see it's
 documentation.
+
+
+## Useful commands
+`make test` - Execute tests locally*
+
+`make clean` - Clean tests artifacts
+
+`make code-convention` - Execute pre-commit code-convention*
+
+The commands with * are only executable using local env.
